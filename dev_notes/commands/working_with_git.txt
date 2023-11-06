@@ -1,0 +1,19 @@
+#To add a submodule:
+
+git submodule add GIT_URL ./desired/local/path
+
+
+# To pull all new submodule references:
+git pull --recurse-submodules
+
+
+# To checkout the right commits in the submodules
+git submodule update --init --recursive
+
+
+# To checkout the latest remote commit of the submodules, regardless of what parent project points to:
+git submodule update --recursive --remote
+
+
+
+
