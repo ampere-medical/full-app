@@ -42,9 +42,6 @@ git push --tags
 # (for all of them)
 
 
-# You need to explicitly fetch tags also:
-git fetch --tags
-
 # Check out a tag once tag references are fetched:
 git checkout tags/v1.0
 
