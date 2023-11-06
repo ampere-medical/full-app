@@ -1,19 +1,50 @@
 #To add a submodule:
 
+
+# To manually add a submodule:
 git submodule add GIT_URL ./desired/local/path
 
+# To initialize from .gitmodules if you haven't already:
+git submodule init
+## (Not entirely sure how this works; manual adding seems better)
 
-# To pull all new submodule references:
+
+# To pull all new submodule references (and commits, I think):
 git pull --recurse-submodules
 
-
 # To checkout the right commits in the submodules
-git submodule update --init --recursive
-
+git submodule update --recursive
 
 # To checkout the latest remote commit of the submodules, regardless of what parent project points to:
 git submodule update --recursive --remote
 
 
 
+NOTES: 
+- The "--recursive" flag is only if you want to recurse into submodules of submodules
+- You will have to commit any changes to submodules made by checking out new versions, such as by using the "--remote" flag
+
+
+
+
+# Tags:
+
+# Lightweight (like a bookmark to a commit):
+git tag <tagname> <commit-SHA-id>
+
+#annotated (preferred for releases)
+git tag -a <tagname> -m "annotation text" <commit-SHA>
+
+# To push tags (does not happen by default)
+git push origin <tagname>
+# OR
+git push --tags
+# (for all of them)
+
+
+# You need to explicitly fetch tags also:
+git fetch --tags
+
+# Check out a tag once tag references are fetched:
+git checkout tags/v1.0
 
