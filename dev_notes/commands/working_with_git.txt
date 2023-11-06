@@ -32,7 +32,7 @@ NOTES:
 # Lightweight (like a bookmark to a commit):
 git tag <tagname> <commit-SHA-id>
 
-#annotated (preferred for releases)
+#annotated (preferred in general especially for releases)
 git tag -a <tagname> -m "annotation text" <commit-SHA>
 
 # To push tags (does not happen by default)
