@@ -1,12 +1,12 @@
-[submodule "ampere_core"]
-	path = ./python_modules/ampere_core
-	url = https://github.com/ampere-medical/ampere-core
+[submodule "python_modules/ampere_core"]
+	path = python_modules/ampere_core
+	url = git@github.com:ampere-medical/ampere-core.git
 	branch = main
-[submodule "node_server"]
-	path = ./python_modules/node_server
-	url = https://github.com/ampere-medical/node-server
+[submodule "servers/node_server"]
+	path = servers/node_server
+	url = git@github.com:ampere-medical/node-server.git
 	branch = main
-[submodule "dev_server"]
-	path = ./servers/dev_server
-	url = https://github.com/ampere-medical/dev-server
+[submodule "servers/dev_server"]
+	path = servers/dev_server
+	url = git@github.com:ampere-medical/dev-server.git
 	branch = main
