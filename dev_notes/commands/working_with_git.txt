@@ -42,6 +42,12 @@ git push --tags
 # (for all of them)
 
 
+# May need:
+git fetch --tags
+#OR
+git fetch
+# For fetching state without all files, I think
+
 # Check out a tag once tag references are fetched:
 git checkout tags/v1.0
 
