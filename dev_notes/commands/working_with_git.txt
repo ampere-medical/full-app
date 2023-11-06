@@ -51,3 +51,37 @@ git fetch
 # Check out a tag once tag references are fetched:
 git checkout tags/v1.0
 
+
+NOTES:
+- It seems annotated git versions are treated specially (they detach from main branch when pulled as submodules, which maybe makes sense
+
+
+
+# Undoing commits
+Use "git reset" (look it up), or other techniques like "git revert" or just checking out old commits and re-committing
+
+
+# Saving uncommitted changes:
+git stash
+git stash pop # get back most recent
+git stash clear # eliminate stash entirely
+
+
+
+
+# Moving branches around:
+
+Look into "git rebase". It can do useful things like move branches ahead of where they originally branched off (mainly use this if you need your branch to use functionality that was later added independently in a different file of the same project)
+
+
+# Checkout out *contents* of old commits over the top of current files:
+git checkout -f <old_commit_hash> -- .
+# Can then commit these
+
+# Soft vs hard resets:
+git reset --hard # eliminates changes past head
+git reset # Just unstages changes?
+
+
+# Double dash
+The double dash "--" on the command line means stop parsing arguments as options, among other things
