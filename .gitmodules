@@ -1,0 +1,12 @@
+[submodule "ampere_core"]
+	path = ampere_core
+	url = ./python_modules/ampere_core/
+	branch = main
+[submodule "node_server"]
+	path = node_server
+	url = ./servers/node_server/
+	branch = main
+[submodule "dev_server"]
+	path = dev_server
+	url = ./servers/dev_server/
+	branch = main
