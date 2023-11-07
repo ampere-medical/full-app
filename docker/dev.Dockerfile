@@ -9,33 +9,36 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
-    apt-get install -y python3.12 python3.12-venv python3.12-dev python3-pip git openssh-server && \
-    python3.12 -m pip install --upgrade pip && \
+    apt-get install -y python3.11 python3.11-venv python3.11-dev python3-pip git openssh-server && \
+    python3.11 -m pip install --upgrade pip && \
     pip install virtualenv
 
 
 # Set up SSH for remote connections
 RUN mkdir /var/run/sshd
-RUN echo 'root:QoodjQf2n4zsY6L3' | chpasswd
-# Change the root password above as needed
 
 # Disable password authentication for SSH (optional, for security if using keys)
-# RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 # Add users for the development environment
 RUN groupadd -r systemgroup && useradd -rm -d /home/devuser -s /bin/bash -g systemgroup -u 1001 devuser
-RUN  echo 'devuser:FoTKufj4xWGdfCNU' | chpasswd
-
 RUN groupadd developergroup && useradd -m -d /home/ryen -s /bin/bash -g developergroup -G sudo -u 1002 ryen
-RUN  echo 'ryen:VuqDcwBYDy2yiLz3' | chpasswd
 RUN usermod -aG sudo ryen  #Add ryen to sudo group
 
-
+COPY ./env/ryen_ecdsa.pub /home/ryen/.ssh/authorized_keys
+RUN chown ryen:developergroup -R /home/ryen/.ssh && \
+    chmod 700 /home/ryen/.ssh && \
+    chmod 600 /home/ryen/.ssh/authorized_keys
 
 
 # Set up a volume for the application code
-VOLUME ["/app"]
 WORKDIR /app
+RUN chmod 777 /app
+#RUN setfacl -d -m u::rwx /app
+#RUN setfacl -d -m g:rwx /app
+#RUN setfacl -d -m o::rwx /app
+
+# need to install setfacl
 
 # Copy over a script to initialize the environment and switch to non-root user
 # This script should be in the same directory as the Dockerfile.
@@ -45,6 +48,11 @@ WORKDIR /app
 
 # Expose the port for the SSH server
 EXPOSE 22
+
+
+COPY ./docker/docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Start the SSH service (as root)
 CMD ["/usr/sbin/sshd", "-D"]
