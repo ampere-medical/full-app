@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -f ./docker/dev.Dockerfile -t myapp-dev-image .
+docker build -f ./docker/development_server/dev.Dockerfile -t myapp-dev-image .

@@ -48,7 +48,7 @@ EXPOSE 22
 
 RUN mkdir /etc/docker-config
 RUN chmod 600 /etc/docker-config
-COPY ./docker/docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY ./docker/development_server/docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
