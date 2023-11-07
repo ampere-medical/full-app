@@ -1,0 +1,50 @@
+# Use the latest version of Ubuntu as the base image
+FROM ubuntu:22.04
+
+# Set environment variables to non-interactive (this prevents some prompts)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update the base image and install Python 3.12, pip, virtualenv, and SSH server
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y python3.12 python3.12-venv python3.12-dev python3-pip git openssh-server && \
+    python3.12 -m pip install --upgrade pip && \
+    pip install virtualenv
+
+
+# Set up SSH for remote connections
+RUN mkdir /var/run/sshd
+RUN echo 'root:QoodjQf2n4zsY6L3' | chpasswd
+# Change the root password above as needed
+
+# Disable password authentication for SSH (optional, for security if using keys)
+# RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+# Add users for the development environment
+RUN groupadd -r systemgroup && useradd -rm -d /home/devuser -s /bin/bash -g systemgroup -u 1001 devuser
+RUN  echo 'devuser:FoTKufj4xWGdfCNU' | chpasswd
+
+RUN groupadd developergroup && useradd -m -d /home/ryen -s /bin/bash -g developergroup -G sudo -u 1002 ryen
+RUN  echo 'ryen:VuqDcwBYDy2yiLz3' | chpasswd
+RUN usermod -aG sudo ryen  #Add ryen to sudo group
+
+
+
+
+# Set up a volume for the application code
+VOLUME ["/app"]
+WORKDIR /app
+
+# Copy over a script to initialize the environment and switch to non-root user
+# This script should be in the same directory as the Dockerfile.
+# It should contain your repo cloning and virtualenv setup commands.
+# COPY init_env.sh /usr/local/bin/init_env
+# RUN chmod +x /usr/local/bin/init_env
+
+# Expose the port for the SSH server
+EXPOSE 22
+
+# Start the SSH service (as root)
+CMD ["/usr/sbin/sshd", "-D"]
