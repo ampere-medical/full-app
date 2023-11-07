@@ -1,12 +1,18 @@
 #!/bin/bash
 # This is docker-entrypoint.sh
-echo "root:${ROOT_PASSWORD}" | chpasswd
-echo "ryen:${RYEN_PASSWORD}" | chpasswd
-echo "devuser:${DEVUSER_PASSWORD}" | chpasswd
-
-unset ROOT_PASSWORD
-unset RYEN_PASSWORD
-unset DEVUSER_PASSWORD
+while IFS=':' read -r user pass; do
+  case $user in
+    ryen)
+      echo "ryen:$pass" | chpasswd
+      ;;
+    devuser)
+      echo "devuser:$pass" | chpasswd
+      ;;
+    root)
+      echo "root:$pass" | chpasswd
+      ;;
+  esac
+done < /etc/docker-config/secrets.txt
 
 # Execute the CMD from the Dockerfile or command line
 exec "$@"

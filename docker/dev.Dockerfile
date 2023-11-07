@@ -2,6 +2,7 @@
 FROM ubuntu:22.04
 
 # Set environment variables to non-interactive (this prevents some prompts)
+# Docker build will sometimes not finish without setting this
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the base image and install Python 3.12, pip, virtualenv, and SSH server
@@ -13,6 +14,7 @@ RUN apt-get update && apt-get upgrade -y && \
     python3.11 -m pip install --upgrade pip && \
     pip install virtualenv
 
+RUN apt-get install -y sudo vim
 
 # Set up SSH for remote connections
 RUN mkdir /var/run/sshd
@@ -33,12 +35,7 @@ RUN chown ryen:developergroup -R /home/ryen/.ssh && \
 
 # Set up a volume for the application code
 WORKDIR /app
-RUN chmod 777 /app
-#RUN setfacl -d -m u::rwx /app
-#RUN setfacl -d -m g:rwx /app
-#RUN setfacl -d -m o::rwx /app
-
-# need to install setfacl
+RUN chown ryen:developergroup /app
 
 # Copy over a script to initialize the environment and switch to non-root user
 # This script should be in the same directory as the Dockerfile.
@@ -49,7 +46,8 @@ RUN chmod 777 /app
 # Expose the port for the SSH server
 EXPOSE 22
 
-
+RUN mkdir /etc/docker-config
+RUN chmod 600 /etc/docker-config
 COPY ./docker/docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
