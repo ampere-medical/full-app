@@ -10,11 +10,16 @@ services:
     depends_on:
       - mongo
       - node_server
+    volumes:
+      - ./env/fullchain.pem:/app/env/fullchain.pem
+      - ./env/privkey.pem:/app/env/privkey.pem
       
   node_server:
     build:
       context: .
       dockerfile: docker/demo/nodeserver.Dockerfile
+    expose:
+      - "5000"
 
   mongo:
     image: "mongo:latest"
