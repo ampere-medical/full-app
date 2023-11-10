@@ -1,0 +1,17 @@
+Next tech steps:
+
+For visualization:
+- Make home folder also a persistent volume (vscode stuff is installed here, plus other default stuff)
+- Maybe add NPM/NPX for node stuff
+- Use "Bit" or "Vite" to help with react development (+webpack, babel, eslint, etc.; these are included in Bit, I think)
+- Add these to dockerfile
+
+
+
+For backend:
+- Get node_server down
+- Get FHIR logic down
+
+
+
+
