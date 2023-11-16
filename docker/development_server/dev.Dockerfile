@@ -1,6 +1,8 @@
 # Use the latest version of Ubuntu as the base image
 FROM ubuntu:22.04
 
+# How do I unminimize this?
+
 # Set environment variables to non-interactive (this prevents some prompts)
 # Docker build will sometimes not finish without setting this
 ENV DEBIAN_FRONTEND=noninteractive
