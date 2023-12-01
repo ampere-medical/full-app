@@ -13,6 +13,8 @@ services:
     volumes:
       - ./env/fullchain.pem:/app/env/fullchain.pem
       - ./env/privkey.pem:/app/env/privkey.pem
+      - ./servers/dev_server/:/app/
+      - ./python_modules/ampere_core/:/usr/local/lib/app/ampere_core/
       
   node_server:
     build:

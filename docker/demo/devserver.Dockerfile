@@ -4,6 +4,9 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
+### COPY ./docker/demo/startup.sh /startup.sh
+### RUN chmod +x /startup.sh
+
 # Copy flask app
 COPY ./servers/dev_server /app
 
@@ -25,3 +28,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # CMD ["bash", "-c", "gunicorn -w 1 -b 0.0.0.0:8000 main:app & nginx -g 'daemon off;'"]
 
 CMD [ "python", "src/main.py" ]
+
+### ENTRYPOINT ["/startup.sh"]
